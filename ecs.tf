@@ -51,6 +51,12 @@ resource "aws_ecs_service" "taskoverflow" {
   desired_count   = 1
   launch_type     = "FARGATE"
 
+  load_balancer {
+    target_group_arn =aws_lb_target_group.taskoverflow.arn
+    container_name ="taskoverflow"
+    container_port =6400
+  }
+
   network_configuration {
     subnets             = data.aws_subnets.private.ids
     security_groups     = [aws_security_group.taskoverflow.id]
